@@ -2,6 +2,7 @@ import React from 'react'
 import { useDataStore } from '../context/DataStoreContext'
 import Navbar from '../components/Navbar'
 import { Outlet } from 'react-router-dom'
+import Footer from '../components/Footer'
 
 export default function MainLayout() {
 	const { theme } = useDataStore()
@@ -13,7 +14,7 @@ export default function MainLayout() {
 			<div className='flex-1 m-auto mt-20 mb-5 select-none'>
 				<Outlet />
 			</div>
-			{/* <Footer /> */}
+			<Footer />
 		</main>
 	)
 }
