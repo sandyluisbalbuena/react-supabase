@@ -13,15 +13,17 @@ export default function Home({ supabaseClient }) {
 		return data
 	}
 	
-
 	const {data,isLoading} = useQuery({queryKey:['retrieveData'], queryFn:retrieveData, refetchInterval:60000})
-
 
 	return (
 		<>
 			{!isLoading?(
 				<TableComponent data={ data }/>
-			):null}
+			):(
+				<div className="h-[80vh] flex justify-center items-center">
+					<span className="loading loading-bars loading-lg"></span>
+				</div>
+			)}
 		</>		
 	)
 }
