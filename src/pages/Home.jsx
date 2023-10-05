@@ -1,7 +1,7 @@
 import React from 'react'
 import TableComponent from '../components/TableComponent'
-import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import ModalComponent from '../components/ModalComponent'
 
 export default function Home({ supabaseClient }) {
 
@@ -24,6 +24,7 @@ export default function Home({ supabaseClient }) {
 					<span className="loading loading-bars loading-lg"></span>
 				</div>
 			)}
+			<ModalComponent supabaseClient={ supabaseClient }/>
 		</>		
 	)
 }

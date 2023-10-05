@@ -3,6 +3,8 @@ import React, { createContext, useContext, useState } from 'react';
 const DataStoreContext = createContext();
 
 export function DataStoreProvider({ children }) {
+	const [ modalState, setModalState ] = useState(null)
+
 	const [ theme, setTheme ] = useState(
 		localStorage.getItem('localTheme') || 'wireframe'
 	);
@@ -44,6 +46,8 @@ export function DataStoreProvider({ children }) {
 			theme, 
 			setTheme, 
 			themes, 
+			modalState, 
+			setModalState,
 		}}>
 			{children}
 		</DataStoreContext.Provider>

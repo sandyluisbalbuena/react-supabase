@@ -1,6 +1,9 @@
 import React from 'react'
+import { useDataStore } from '../context/DataStoreContext';
 
 export default function TableComponent({ data }) {
+
+	const { setModalState } = useDataStore()
 
 	const calculateAge = (birthdate) => {
 		const birthdateArray = birthdate.split('-'); // Split the date string into an array
@@ -22,6 +25,7 @@ export default function TableComponent({ data }) {
 	
 		return age;
 	}
+
 
 	return (
 		<div className="overflow-x-auto w-full">
@@ -61,7 +65,7 @@ export default function TableComponent({ data }) {
 								</div>
 							</td>
 							<th>
-								<button className="btn btn-ghost btn-xs">details</button>
+								<button onClick={()=>setModalState(row.id)} className="btn btn-ghost btn-xs">details</button>
 							</th>
 						</tr>
 					))}
