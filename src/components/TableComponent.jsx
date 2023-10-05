@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDataStore } from '../context/DataStoreContext';
+import { BsFillTrashFill } from 'react-icons/bs'
 
-export default function TableComponent({ data }) {
+export default function TableComponent({ data, supabaseClient }) {
 
 	const { setModalState } = useDataStore()
 
@@ -26,17 +27,24 @@ export default function TableComponent({ data }) {
 		return age;
 	}
 
+	const deleteData = async(id) => {
+		const { data, error } = await supabaseClient
+		.from('sampleTable')
+		.delete()
+		.eq('id', id); // You can specify a filter condition
+	}
+
 
 	return (
-		<div className="overflow-x-auto w-full">
+		<div className="overflow-x-auto w-full mt-5">
 			<table className="table">
 				<thead>
 					<tr>
-						<th>
+						{/* <th>
 							<label>
 								<input type="checkbox" className="checkbox" />
 							</label>
-						</th>
+						</th> */}
 						<th>Name</th>
 						<th>Age</th>
 						<th></th>
@@ -45,11 +53,11 @@ export default function TableComponent({ data }) {
 				<tbody>
 					{data.map((row)=>(
 						<tr key={ row.id }>
-							<th>
+							{/* <th>
 								<label>
 									<input type="checkbox" className="checkbox" />
 								</label>
-							</th>
+							</th> */}
 							<td>
 								<div className="flex items-center space-x-3">
 									<div>
@@ -66,6 +74,9 @@ export default function TableComponent({ data }) {
 							</td>
 							<th>
 								<button onClick={()=>setModalState(row.id)} className="btn btn-ghost btn-xs">details</button>
+								<button onClick={()=>deleteData(row.id)} className="btn btn-ghost btn-xs">
+									<BsFillTrashFill />
+								</button>
 							</th>
 						</tr>
 					))}
