@@ -26,16 +26,17 @@ export default function Home({ supabaseClient }) {
 				<>
 					<div className='flex justify-between mt-10'>
 						<p>Users</p>
-						<button onClick={ ()=>{
+						<button 
+							onClick={ ()=>{
 								setModalState(true)
 								setIsCreate(true)
 							} } 
-							className='btn btn-primary btn-sm'>Create new user</button>
+							className='btn btn-primary btn-sm'>
+							Create new user
+						</button>
 					</div>
-					<TableComponent data={ data } supabaseClient={ supabaseClient }/>
+					<TableComponent data={ data }/>
 				</>
-			
-
 			):(
 				<div className="h-[80vh] flex justify-center items-center">
 					<span className="loading loading-bars loading-lg"></span>

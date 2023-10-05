@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDataStore } from '../context/DataStoreContext';
-import { BsFillTrashFill } from 'react-icons/bs'
 
-export default function TableComponent({ data, supabaseClient }) {
+
+export default function TableComponent({ data }) {
 
 	const { setModalState } = useDataStore()
 
@@ -26,14 +26,6 @@ export default function TableComponent({ data, supabaseClient }) {
 	
 		return age;
 	}
-
-	const deleteData = async(id) => {
-		const { data, error } = await supabaseClient
-		.from('sampleTable')
-		.delete()
-		.eq('id', id); // You can specify a filter condition
-	}
-
 
 	return (
 		<div className="overflow-x-auto w-full mt-5">
@@ -73,10 +65,10 @@ export default function TableComponent({ data, supabaseClient }) {
 								</div>
 							</td>
 							<th>
-								<button onClick={()=>setModalState(row.id)} className="btn btn-ghost btn-xs">details</button>
-								<button onClick={()=>deleteData(row.id)} className="btn btn-ghost btn-xs">
-									<BsFillTrashFill />
-								</button>
+								<button onClick={()=>setModalState(row.id)} className="btn btn-ghost btn-xs mx-1">details</button>
+
+								
+								
 							</th>
 						</tr>
 					))}
