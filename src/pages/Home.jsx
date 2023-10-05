@@ -1,7 +1,27 @@
 import React from 'react'
+import TableComponent from '../components/TableComponent'
+import { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
-export default function Home() {
+export default function Home({ supabaseClient }) {
+
+	const retrieveData = async() => {
+		const { data, error } = await supabaseClient
+		.from('sampleTable')
+		.select('*')
+
+		return data
+	}
+	
+
+	const {data,isLoading} = useQuery({queryKey:['retrieveData'], queryFn:retrieveData, refetchInterval:60000})
+
+
 	return (
-		<div>Home</div>
+		<>
+			{!isLoading?(
+				<TableComponent data={ data }/>
+			):null}
+		</>		
 	)
 }
