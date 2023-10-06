@@ -8,6 +8,7 @@ import { DataStoreProvider } from './context/DataStoreContext'
 import SupabaseCrud from './functions/SupabaseCrud'
 import { createClient } from '@supabase/supabase-js';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import File from './pages/File'
 
 
 const supabase = createClient(
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route element={ <MainLayout /> }>
             <Route path='/' element={ <Home supabaseClient={ supabase }/> }/>
+            <Route path='/file' element={ <File supabaseClient={ supabase }/> }/>
           </Route>
         </Routes>
       </DataStoreProvider>

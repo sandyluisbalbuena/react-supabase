@@ -42,7 +42,17 @@ export default function ModalComponent({ supabaseClient, isCreate }) {
 		error==null?toast.success('Data created successfully!'):toast.error('Something went wrong!')
 	}
 
-	const { mutateCreate } = useMutation(createData)
+	const mutateCreate = useMutation({mutationFn: async() => {
+		const { data, error } = await supabaseClient
+		.from('sampleTable')
+		.insert([
+			{ name: inputName, birthday: birthday },
+		]);
+		setModalState(false)
+		error==null?toast.success('Data created successfully!'):toast.error('Something went wrong!')
+	},onSuccess: data => {
+		queryClient.setQueryData(['retrieveData'], data)
+	}})
 
 	const updateData = async() => {
 		const { data, error } = await supabaseClient
@@ -68,10 +78,10 @@ export default function ModalComponent({ supabaseClient, isCreate }) {
 				{!isLoading&&!isFetching?(
 					<>
 						<div className='flex justify-end mb-5'>
-							<button onClick={()=>setUpdate(true)} className="btn btn-ghost btn-xs mx-1">
+							<button onClick={()=>setUpdate(true)} className="btn btn-success btn-sm mx-1">
 								<AiFillEdit />
 							</button>
-							<button onClick={()=>deleteData()} className="btn btn-ghost btn-xs mx-1">
+							<button onClick={()=>deleteData()} className="btn btn-error btn-sm mx-1">
 								<BsFillTrashFill />
 							</button>
 						</div>
@@ -90,12 +100,11 @@ export default function ModalComponent({ supabaseClient, isCreate }) {
 					<>
 						<input type="text" placeholder="Name" className="input input-bordered w-full my-2" onChange={ (e) => setInputName(e.target.value) }/>
 						<input type="date" className="input input-bordered w-full my-2"  onChange={ (e) => setBirthday(e.target.value) }/>
-						<button onClick={ mutateCreate } className='btn btn-primary w-full'>Create</button>
+						<button onClick={ ()=>mutateCreate.mutate() } className='btn btn-primary w-full'>Create</button>
 					</>
 				):null} 
 			</div>
 
-		
 			<form method="dialog" className="modal-backdrop">
 				<button onClick={ ()=>{
 					setModalState(null)
@@ -104,6 +113,7 @@ export default function ModalComponent({ supabaseClient, isCreate }) {
 					close
 				</button>
 			</form>
+
 		</dialog>
 	)
 }

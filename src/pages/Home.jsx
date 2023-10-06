@@ -18,7 +18,7 @@ export default function Home({ supabaseClient }) {
 		return data
 	}
 	
-	const {data,isLoading} = useQuery({queryKey:['retrieveData'], queryFn:retrieveData, refetchInterval:60000})
+	const {data,isLoading} = useQuery({queryKey:['retrieveData'], queryFn:retrieveData, refetchInterval:60000, refetchOnMount:true})
 
 	return (
 		<>

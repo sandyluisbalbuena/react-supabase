@@ -33,6 +33,9 @@ export default function Navbar() {
 							<li><a onClick={openModalLogin}>Login</a></li>
 						)}
 					</> */}
+					<li>
+						<Link to={ '/file' }>File</Link>
+					</li>
 
 					<li>
 						<button  className="btn btn-ghost btn-sm">
@@ -44,7 +47,13 @@ export default function Navbar() {
 			</div>
 
 			<div className="hidden md:flex flex-none">
-				<ul className="menu menu-horizontal px-1">
+				<ul className="menu menu-horizontal px-1 gap-2">
+					<li>
+						<Link to={ '/' }>Home</Link>
+					</li>
+					<li>
+						<Link to={ '/file' }>File</Link>
+					</li>
 					<li>
 						<details>
 							<summary>
@@ -77,7 +86,7 @@ export default function Navbar() {
 					<button onClick={openModalLogin} className="btn btn-ghost btn-sm">
 						Sign In
 					</button>
-				)}					 */}
+				)}*/}
 
 			</div>
 		</div>
