@@ -21,7 +21,7 @@ export default function Home({ supabaseClient }) {
 	const {data,isLoading} = useQuery({queryKey:['retrieveData'], queryFn:retrieveData, refetchInterval:60000, refetchOnMount:true})
 
 	return (
-		<>
+		<div className='mx-3 lg:mx-0'>
 			{!isLoading?(
 				<>
 					<div className='flex justify-between mt-10'>
@@ -43,6 +43,6 @@ export default function Home({ supabaseClient }) {
 				</div>
 			)}
 			<ModalComponent supabaseClient={ supabaseClient } isCreate={ isCreate }/>
-		</>		
+		</div>		
 	)
 }

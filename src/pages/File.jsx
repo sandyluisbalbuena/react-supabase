@@ -1,16 +1,14 @@
 import React from 'react'
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function File({ supabaseClient }) {
 
 	const [ image, setImage ] = useState(null)
+	const [ imageUrl, setImageUrl ] = useState('')
 
 	const uploadFile = async() => {
 		if (image) {
-			// const jwtToken = 'rJyqB7Ngziis0+lAVBcjmTMux8rJpJQ+2UIfKlAYqaXShH9n61zFBt+G9PEA6tAn0a7zS74TqaMZ87L9bh/KnQ=='; // Replace with your actual JWT token
-			// const headers = {
-			// Authorization: `Bearer ${jwtToken}`, // Include the JWT token in the 'Authorization' header
-			// };
 
 			const { data, error } = await supabaseClient.storage
 			.from('images') // Replace with your bucket name
@@ -18,17 +16,44 @@ export default function File({ supabaseClient }) {
 
 		
 			if (error) {
+				toast.error(error)
 				console.error('Error uploading file:', error);
 			} else {
+				toast.success('File uploaded successfully')
 				console.log('File uploaded successfully:', data);
 			}
 		}
 	}
 
+	const fetchImageURL = async () => {
+		const imageFileName = 'sampleFile'; // Replace with the actual image file name
+		const { data, error } = await supabaseClient.storage
+		.from('images')
+		.getPublicUrl(`${imageFileName}`);
+	
+		if (error) {
+			console.error('Error fetching image URL:', error.message);
+		} else {
+			setImageUrl(data.publicUrl)
+			console.log('Image URL:', data.publicUrl);
+		}
+		
+	};
+
 	return (
 		<div className='mx-3 lg:mx-0'>
 			<input onChange={ (e)=>setImage( e.target.files[0]) } type="file" className="file-input file-input-bordered w-full my-2" />
-			<button className='btn btn-success w-full' onClick={ uploadFile }>Upload</button>
+			<button className='btn btn-success w-full my-2' onClick={ uploadFile }>Upload</button>
+			<button className='btn btn-primary w-full my-2' onClick={ fetchImageURL }>Fetch</button>
+
+			{!imageUrl==''?(
+				<ul>
+					<li>
+						<img src={ imageUrl } alt="" />
+					</li>
+				</ul>
+			):null}
+			
 		</div>
 	)
 }
