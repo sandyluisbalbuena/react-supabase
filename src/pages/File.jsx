@@ -37,25 +37,45 @@ export default function File({ supabaseClient }) {
 			const filteredImages = data.filter((file) => file.name !== '.emptyFolderPlaceholder');
 
 			const images = filteredImages.map((file) => ({
+				id: file.id,
 				name: file.name,
 				url: supabaseClient.storage.from('images').getPublicUrl(`${file.name}`) // Construct the URL
 			}));
 			setImageList(images)
 			console.log(images)
 		}
+	}
+
+	const deleteImageById = async (name) => {
+		const { error, data } = await supabaseClient.storage
+			.from('images')
+			.remove(name)
+
+		if (error) {
+			console.error('Error deleting image by ID:', error.message);
+		} else {
+			console.log('Image deleted successfully by ID:', name);
+			setImageList((prevImages) => prevImages.filter((image) => image.name !== name));
+		}
+		
 	};
 
 	return (
-		<div className='mx-3 lg:mx-auto'>
+		<div className='mx-3 lg:mx-auto'> 
 			<input onChange={ (e)=>setImage( e.target.files[0]) } type="file" className="file-input file-input-bordered w-full my-2" />
-			<button className='btn btn-success w-full my-2' onClick={ uploadFile }>Upload</button>
-			<button className='btn btn-primary w-full my-2' onClick={ fetchImageURL }>Fetch</button>
-
+			<div className='grid grid-cols-2 gap-2 mb-5'>
+				<button className='btn btn-success' onClick={ uploadFile }>Upload</button>
+				<button className='btn btn-primary' onClick={ fetchImageURL }>Fetch</button>
+			</div>
+			<div className='divider'></div>
 			{imageList?(
 				<div className='grid grid-cols-2 gap-2'>
-					{imageList.map((image, index) => (
-						<div key={index} className='object-contain mask-square'>
-							<img className='h-full rounded-md' src={image.url.data.publicUrl} alt={`Image ${index}`} />
+					{imageList.map((image) => (
+						<div key={ image.id } className='object-contain'>
+							<img className='h-full rounded-md' src={image.url.data.publicUrl} alt={`Image ${image.id}`} />
+							<button onClick={ ()=>deleteImageById(image.name) } className='btn btn-error btn-xs relative bottom-8 mx-1'>
+								delete
+							</button>
 						</div>
 					))}
 				</div>
