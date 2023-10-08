@@ -68,6 +68,10 @@ export default function File({ supabaseClient }) {
 				<button className='btn btn-primary' onClick={ fetchImageURL }>Fetch</button>
 			</div>
 			<div className='divider'></div>
+
+
+
+			
 			{imageList?(
 				<div className='grid grid-cols-2 gap-2'>
 					{imageList.map((image) => (
